@@ -84,7 +84,7 @@ class UsersController extends AuthBootstrapAppController {
      */
     public function admin_profile() {
         $id = $this->Session->read('Auth.User.id');
-		$this->User->recursive = -1;
+		$this->User->recursive = 1;
         $this->User->id = $id;
         if (!$this->User->exists()) {
             throw new NotFoundException(__('Invalid user'));
@@ -187,7 +187,7 @@ class UsersController extends AuthBootstrapAppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'),'Flash/success');
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'profile','admin'=>true));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'),'Flash/error');
 			}
